@@ -14,3 +14,5 @@ function toggleTab(tabIndex) {
     // set active tab
     buttons[tabIndex].classList.add("active-tab-button");
 }
+
+toggleTab(0);

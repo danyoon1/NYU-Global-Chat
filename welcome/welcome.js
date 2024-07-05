@@ -1,3 +1,3 @@
 function goRegistration() {
-    // window.location.href="../registration/registration.html";
+    window.location.href="../registration/registration.html";
 }
