@@ -47,6 +47,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
 
 // ROUTES
+app.use('/register', require('./routes/register'));
+app.use('/auth', require('./routes/auth'));
+app.use('/refresh', require('./routes/refresh'));
+app.use('/logout', require('./routes/logout'));
+
 app.use('/welcome', require('./routes/welcome-route'));
 app.use('/registration', require('./routes/registration-route'));
 app.use('/chat', require('./routes/chat-route'));
