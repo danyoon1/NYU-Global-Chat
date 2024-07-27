@@ -6,12 +6,27 @@ const path = require('path');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const cookieParser = require('cookie-parser');
+const credentials = require('./middleware/credentials');
 const mongoose = require('mongoose');
+const connectDB = require('./config/dbConn');
 const PORT = process.env.PORT || 3500;
 
-expressServer = app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// connect to MongoDB
+connectDB();
+
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB');
 });
+
+const expressServer = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});;
+
+const io = new Server(expressServer, {
+    cors: {
+        origin: process.env.NODE_ENV === "production" ? false : []
+    }
+});;
 
 // set response header before cors to prevent error
 app.use(credentials);
@@ -31,12 +46,6 @@ app.use(cookieParser());
 // serve static files
 app.use(express.static(path.join(__dirname, '/public')));
 
-const io = new Server(expressServer, {
-    cors: {
-        origin: process.env.NODE_ENV === "production" ? false : []
-    }
-});
-
 io.on('connection', socket => {
-
+    
 });
