@@ -2,14 +2,15 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 const handleNewUser = async (req, res) => {
-    const {user, pwd} = req.body;
-    if (!user || !pwd) {
-        return res.status(400).json({'message': 'username and password are required'});
+    const {user, pwd, email: stuEmail} = req.body;
+    if (!user || !pwd || !stuEmail) {
+        return res.status(400).json({'message': 'username, password, and email are required'});
     }
 
-    // check for duplicate usernames in the db
-    const duplicate = await User.findOne({username: user}).exec();
-    if (duplicate) {
+    // check for duplicate usernames and email in the db
+    const duplicateUser = await User.findOne({username: user}).exec();
+    const duplicateEmail = await User.findOne({email: stuEmail}).exec();
+    if (duplicateUser || duplicateEmail) {
         return res.sendStatus(409); // conflict
     }
 
@@ -19,8 +20,9 @@ const handleNewUser = async (req, res) => {
 
         // create and store new user
         const newUser = await User.create({
-            "username": user,
-            "password": hashedPwd
+            username: user,
+            password: hashedPwd,
+            email: stuEmail
         })
 
         res.status(201).json({'success': `new user ${user} created`});
