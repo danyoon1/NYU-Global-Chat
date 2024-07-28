@@ -7,6 +7,7 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const cookieParser = require('cookie-parser');
 const credentials = require('./middleware/credentials');
+const verifyJWT = require('./middleware/verifyJWT');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const PORT = process.env.PORT || 3500;
@@ -52,9 +53,11 @@ app.use('/auth', require('./routes/auth'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 
-app.use('/welcome', require('./routes/welcome-route'));
-app.use('/registration', require('./routes/registration-route'));
-app.use('/chat', require('./routes/chat-route'));
+app.use('/welcome', require('./routes/welcome-page'));
+app.use('/registration', require('./routes/registration-page'));
+
+app.use(verifyJWT);
+app.use('/chat', require('./routes/chat-page'));
 
 // fallback 404
 app.all('*', (req, res) => {
