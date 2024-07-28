@@ -47,12 +47,12 @@ body {
 
 .info label {
     display: block;
-    background: aqua;
+    /* background: aqua; */
     width: 100%;
     text-align: left;
 }
 
 .info input {
-    background-color: red;
+    /* background-color: red; */
     width: 80%;
 }
