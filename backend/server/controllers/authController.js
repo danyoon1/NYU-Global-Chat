@@ -6,33 +6,35 @@ const handleLogin = async (req, res) => {
     const cookies = req.cookies;
 
     // check body for valid user/pwd
-    const {user, pwd} = req.body;
+    const { user, pwd } = req.body;
     if (!user || !pwd) {
-        return res.status(400).json({'message': 'Username and password are required'});
+        return res.status(400).json({ 'message': 'Username and password are required' });
     }
     // check and set foundUser
-    const foundUser = await User.findOne({username: user}).exec();
+    const foundUser = await User.findOne({ username: user }).exec();
     if (!foundUser) {
         return res.sendStatus(401); // unauthorized
     }
 
     // if password matches
+    const userRoles = Object.values(foundUser.roles).filter(Boolean);
     if (await bcrypt.compare(pwd, foundUser.password)) {
         // create JWTs
-        const userRoles = Object.values(foundUser.roles);
         const accessToken = jwt.sign(
-            {UserInfo: {
-                username: user,
-                roles: userRoles
-            }},
+            {
+                UserInfo: {
+                    username: user,
+                    roles: userRoles
+                }
+            },
             process.env.ACCESS_TOKEN_SECRET,
-            {expiresIn: '6h'}
+            { expiresIn: '6h' }
         );
 
         const newRefreshToken = jwt.sign(
-            {username: user},
+            { username: user },
             process.env.REFRESH_TOKEN_SECRET,
-            {expiresIn: '1d'}
+            { expiresIn: '1d' }
         );
 
         // token rotation
@@ -57,7 +59,7 @@ const handleLogin = async (req, res) => {
 
             // potential token reuse
             const refreshToken = cookies.jwt;
-            const foundToken = await User.findOne({refreshToken}).exec();
+            const foundToken = await User.findOne({ refreshToken }).exec();
 
             // token reuse detected
             if (!foundToken) {
@@ -65,7 +67,7 @@ const handleLogin = async (req, res) => {
             }
 
             // clear cookies
-            res.clearCookie('jwt', {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000});
+            res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
         }
 
         // save new rt list to db
@@ -73,15 +75,15 @@ const handleLogin = async (req, res) => {
         const result = await foundUser.save();
 
         // store refresh token as cookie (http only)
-        res.cookie('jwt', newRefreshToken, {httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000});
+        res.cookie('jwt', newRefreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
         // use secure for production, does not work with thunder client
         // res.cookie('jwt', refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000})
 
         // store in memory on frontend
-        res.json({accessToken});
+        res.json({ accessToken, userRoles });
     } else {
         res.sendStatus(401) // unauthorized
     }
 }
 
-module.exports = {handleLogin};
+module.exports = { handleLogin };

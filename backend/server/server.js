@@ -36,7 +36,7 @@ app.use(credentials);
 app.use(cors(corsOptions));
 
 // built in middleware for urlencoded data
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 // built in middleware for json
 app.use(express.json());
@@ -65,7 +65,7 @@ app.all('*', (req, res) => {
     if (req.accepts('html')) {
         res.sendFile(path.join(__dirname, 'views', '404.html'));
     } else if (req.accepts('json')) {
-        res.json({error: '404 not found'});
+        res.json({ error: '404 not found' });
     } else {
         res.type('txt').send('404 not found');
     }

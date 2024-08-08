@@ -13,9 +13,9 @@ const handleRefreshToken = async (req, res) => {
 
     const refreshToken = cookies.jwt;
     // clear cookie to create new one
-    res.clearCookie('jwt', {httpOnly: true, sameSite: 'None', secure: true, maxAge: 1000 * 60 * 60 * 24})
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true, maxAge: 1000 * 60 * 60 * 24 })
 
-    const foundUser = await User.findOne({refreshToken}).exec();
+    const foundUser = await User.findOne({ refreshToken }).exec();
 
     // refresh token reuse detected
     if (!foundUser) {
@@ -26,7 +26,7 @@ const handleRefreshToken = async (req, res) => {
                 if (err) { // expired token
                     return res.sendStatus(403); // forbidden
                 }
-                const hackedUser = await User.findOne({username: decoded.username}).exec();
+                const hackedUser = await User.findOne({ username: decoded.username }).exec();
                 hackedUser.refreshToken = [];
                 const result = await hackedUser.save();
             }
@@ -53,32 +53,34 @@ const handleRefreshToken = async (req, res) => {
             // refresh token still valid
             const userRoles = Object.values(foundUser.roles);
             const accessToken = jwt.sign(
-                {UserInfo: {
-                    username: decoded.username,
-                    roles: userRoles
-                }},
+                {
+                    UserInfo: {
+                        username: decoded.username,
+                        roles: userRoles
+                    }
+                },
                 process.env.ACCESS_TOKEN_SECRET,
-                {expiresIn: '6h'}
+                { expiresIn: '6h' }
             );
 
             // issue new refresh token to array
             const newRefreshToken = jwt.sign(
-                {username: decoded.username},
+                { username: decoded.username },
                 process.env.REFRESH_TOKEN_SECRET,
-                {expiresIn: '1d'}
+                { expiresIn: '1d' }
             );
 
             foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
             const result = await foundUser.save();
 
             // send new refresh token as cookie
-            res.cookie('jwt', newRefreshToken, {httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000});
+            res.cookie('jwt', newRefreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
             // use secure for production, does not work with thunder client
             // res.cookie('jwt', refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000})
 
-            res.json({accessToken});
+            res.json({ accessToken });
         }
     );
 }
 
-module.exports = {handleRefreshToken}
+module.exports = { handleRefreshToken }
