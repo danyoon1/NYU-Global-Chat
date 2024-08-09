@@ -5,6 +5,8 @@ import { useState, useEffect, useRef } from 'react';
 const Chat = () => {
 
     const [socket, setSocket] = useState(null);
+    const [msgInput, setMsgInput] = useState('');
+    const [msgHistory, setMsgHistory] = useState([]);
 
     const initCon = useRef(false);
 
@@ -18,10 +20,18 @@ const Chat = () => {
         }
     }, []);
 
+    socket.on('message', (data) => {
+
+    });
+
+    const sendMessage (e) => {
+        e.preventDefault();
+    }
+
     return (
-        <>
-            <Users />
-        </>
+        <section>
+
+        </section>
     )
 }
 
