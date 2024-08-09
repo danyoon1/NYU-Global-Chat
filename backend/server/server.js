@@ -25,7 +25,7 @@ const expressServer = app.listen(PORT, () => {
 
 const io = new Server(expressServer, {
     cors: {
-        origin: process.env.NODE_ENV === "production" ? false : []
+        origin: process.env.NODE_ENV === "production" ? false : ['http://localhost:3000', 'http://127.0.0.1:3000']
     }
 });;
 
@@ -53,11 +53,9 @@ app.use('/auth', require('./routes/auth'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 
-app.use('/welcome', require('./routes/welcome-page'));
-app.use('/registration', require('./routes/registration-page'));
-
+// protected backend routes
 app.use(verifyJWT);
-app.use('/chat', require('./routes/chat-page'));
+app.use('/users', require('./routes/api/users'));
 
 // fallback 404
 app.all('*', (req, res) => {
@@ -71,6 +69,9 @@ app.all('*', (req, res) => {
     }
 });
 
-io.on('connection', socket => {
+/* ------------------------------------------------------- */
 
+// chat app server
+io.on('connection', socket => {
+    console.log(`User ${socket.id} connected`);
 });
