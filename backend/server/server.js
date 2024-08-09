@@ -74,4 +74,17 @@ app.all('*', (req, res) => {
 // chat app server
 io.on('connection', socket => {
     console.log(`User ${socket.id} connected`);
+
+    socket.on('message', ({ name, text }) => {
+        console.log('message received');
+
+        io.emit('message', {
+            name: 'server',
+            text: 'server message'
+        });
+    });
+
+    socket.on('disconnect', () => {
+        console.log(`User ${socket.id} disconneted`);
+    });
 });

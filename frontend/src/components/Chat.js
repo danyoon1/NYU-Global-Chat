@@ -1,10 +1,10 @@
-import Users from '../components/Users';
-import { io } from 'socket.io-client';
+import Users from './Users';
+import { socket } from './Socket';
 import { useState, useEffect, useRef } from 'react';
 
 const Chat = () => {
 
-    const [socket, setSocket] = useState(null);
+    const [connected, setConnected] = useState(false);
     const [msgInput, setMsgInput] = useState('');
     const [msgHistory, setMsgHistory] = useState([]);
 
@@ -12,20 +12,26 @@ const Chat = () => {
 
     useEffect(() => {
         if (!initCon.current) {
-            setSocket(io('http://localhost:3500'));
+            socket.connect();
+            setConnected(true);
         }
 
         return () => {
             initCon.current = true;
+            setConnected(false);
         }
     }, []);
 
     socket.on('message', (data) => {
-
+        console.log(data.text);
     });
 
-    const sendMessage (e) => {
+    const sendMessage = (e) => {
         e.preventDefault();
+        socket.emit('message', {
+            name: 'test',
+            text: 'test message'
+        });
     }
 
     return (
