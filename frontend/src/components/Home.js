@@ -8,11 +8,11 @@ const Home = () => {
     }
 
     return (
-        <section>
-            <h1><span>NYU</span><span>Global Chat</span></h1>
-            <p>NYU Global Chat is an open source project designed to allow unrestricted communication
+        <section className="Home">
+            <h1><span>NYU</span><br /><span>Global Chat</span></h1>
+            <p id='description'>NYU Global Chat is an open source project designed to allow unrestricted communication
                 exclusively between NYU students/alumni.</p>
-            <button onClick={enterChat}>Enter Chat</button>
+            <button id='enter' onClick={enterChat}><span>Enter Chat</span></button>
         </section>
     )
 }

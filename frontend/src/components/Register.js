@@ -94,14 +94,14 @@ const Register = () => {
     return (
         <>
             {success ? (
-                <section>
+                <section className="Register">
                     <h1>Registration Successful</h1>
                     <p>
                         <Link to='../login'>Login</Link>
                     </p>
                 </section>
             ) : (
-                <section>
+                <section className="Register">
                     <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>{errMsg}</p>
                     <h1>Register</h1>
                     <form onSubmit={handleSubmit}>

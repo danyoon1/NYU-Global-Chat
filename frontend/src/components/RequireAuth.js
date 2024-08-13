@@ -13,6 +13,7 @@ const RequireAuth = ({ allowedRoles }) => {
     const roles = decoded?.UserInfo?.roles || [];
 
     return (
+        // set up unauthorized dialogues
         roles.find(role => allowedRoles?.includes(role))
             ? <Outlet />
             : auth?.user

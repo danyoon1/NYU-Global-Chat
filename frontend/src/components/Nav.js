@@ -14,19 +14,19 @@ const Nav = () => {
 
     return (
         <nav>
-            <ul>
-                <li><Link to='/'>Home</Link></li>
+            <ul className='nav-list'>
+                <li className='nav-left'><Link to='/'>Home</Link></li>
                 {!auth?.user
                     ? (
                         <>
-                            <li><Link to='register'>Register</Link></li>
-                            <li><Link to='login'>Login</Link></li>
+                            <li className='nav-right'><Link to='register'>Register</Link></li>
+                            <li className='nav-right'><Link to='login'>Login</Link></li>
                         </>
                     )
                     : (
                         <>
-                            <li>Logged in as {auth.user}</li>
-                            <Link><span onClick={signOut}>Logout</span></Link>
+                            <li className='nav-right'>Logged in as {auth.user}</li>
+                            <li className='nav-right'><Link><span onClick={signOut}>Logout</span></Link></li>
                         </>
                     )
                 }

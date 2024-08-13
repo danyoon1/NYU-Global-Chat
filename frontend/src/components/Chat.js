@@ -88,7 +88,7 @@ const Chat = () => {
     });
 
     return (
-        <section>
+        <section className='Chat'>
             <p>{`Online Users: ${isLoading ? 'Loading...' : numUsers}`}</p>
             <ul className='chat-display'>
                 {msgHistory.map((msg, i) => (

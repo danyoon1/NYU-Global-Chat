@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Staatliches&family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Thasadith', serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+body {
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: violet;
+    display: flex;
+}
+
+#root {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    min-width: 100vw;
+    padding: 1rem, 0.5rem;
+}
+
+.Home,
+.Register,
+.Login,
+.Chat {
+    width: 100%;
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav {
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.nav-list {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    list-style-type: none;
+    /* background-color: aquamarine; */
+}
+
+.nav-left {
+    width: 80%;
+    /* background-color: aliceblue; */
+}
+
+.nav-right {
+    width: 10%;
+    /* background-color: aqua; */
+    text-align: center;
+}
+
+.Footer {
+    padding: 0.75rem;
+    display: grid;
+    place-content: center;
+}
+
+.Home {
+    text-align: center;
+}
+
+.Home h1 {
+    font-size: 4.5rem;
+    margin-top: 5%;
+}
+
+#description {
+    position: relative;
+    top: 0.5rem;
+    font-size: 1.2rem;
+}
+
+#enter {
+    position: relative;
+    top: 4rem;
+    display: inline-block;
+    border-radius: 6px;
+    background-color: blueviolet;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 1rem;
+    width: 14rem;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+#enter span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+#enter span::after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -1.5rem;
+}
+
+#enter:hover span {
+    padding-right: 2rem;
+}
+
+#enter:hover span::after {
+    opacity: 1;
+    right: 0;
+}
