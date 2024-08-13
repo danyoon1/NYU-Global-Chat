@@ -80,6 +80,8 @@ const Register = () => {
         } catch (err) {
             if (!err?.response) {
                 setErrMsg("No Server Response");
+            } else if (err.response?.status === 400) {
+                setErrMsg("Not a Valid Email");
             } else if (err.response?.status === 409) {
                 setErrMsg("Username or Email Already in Use");
             } else {

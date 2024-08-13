@@ -1,8 +1,17 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const { validate } = require('deep-email-validator');
 
 const handleNewUser = async (req, res) => {
+
     const { user, pwd, email: stuEmail } = req.body;
+
+    // deep email validation
+    const validationResult = await validate(stuEmail);
+    if (!validationResult.valid) {
+        return res.status(400).json({ 'message': 'email is invalid' });
+    }
+
     if (!user || !pwd || !stuEmail) {
         return res.status(400).json({ 'message': 'username, password, and email are required' });
     }

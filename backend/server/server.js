@@ -10,6 +10,7 @@ const credentials = require('./middleware/credentials');
 const verifyJWT = require('./middleware/verifyJWT');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
+const { chatServer } = require('./chatServer');
 const PORT = process.env.PORT || 3500;
 
 // connect to MongoDB
@@ -21,12 +22,6 @@ mongoose.connection.once('open', () => {
 
 const expressServer = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-});;
-
-const io = new Server(expressServer, {
-    cors: {
-        origin: process.env.NODE_ENV === "production" ? false : ['http://localhost:3000', 'http://127.0.0.1:3000']
-    }
 });;
 
 // set response header before cors to prevent error
@@ -69,22 +64,5 @@ app.all('*', (req, res) => {
     }
 });
 
-/* ------------------------------------------------------- */
-
-// chat app server
-io.on('connection', socket => {
-    console.log(`User ${socket.id} connected`);
-
-    socket.on('message', ({ name, text }) => {
-        console.log('message received');
-
-        io.emit('message', {
-            name: 'server',
-            text: 'server message'
-        });
-    });
-
-    socket.on('disconnect', () => {
-        console.log(`User ${socket.id} disconneted`);
-    });
-});
+// chat server
+chatServer(expressServer);

@@ -60,7 +60,7 @@ const handleRefreshToken = async (req, res) => {
                     }
                 },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '15s' }
+                { expiresIn: '1h' }
             );
 
             // issue new refresh token to array
