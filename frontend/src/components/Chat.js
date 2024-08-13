@@ -11,6 +11,7 @@ const Chat = () => {
     const [msgHistory, setMsgHistory] = useState([]);
     const [numUsers, setNumUsers] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [typingUsers, setTypingUsers] = useState([]);
 
     const initCon = useRef(false);
     const msgRef = useRef();
@@ -31,6 +32,14 @@ const Chat = () => {
         }
     }, []);
 
+    const sendActivity = () => {
+        socket.emit('activity', auth.user);
+    }
+
+    const sendStopActivity = () => {
+        socket.emit('stopActivity', auth.user);
+    }
+
     const sendMessage = (e) => {
         e.preventDefault();
         if (msgInput) {
@@ -43,9 +52,8 @@ const Chat = () => {
         msgRef.current.focus();
     }
 
-    socket.on('connect', () => {
+    socket.once('connect', () => {
         setConnected(true);
-        console.log(auth.user)
         socket.emit('initializeUser', auth.user);
     });
 
@@ -58,6 +66,14 @@ const Chat = () => {
             ...msgHistory,
             { name: data.name, text: data.text }
         ]);
+    });
+
+    socket.on('activity', (users) => {
+        setTypingUsers(users);
+    });
+
+    socket.on('stopActivity', (users) => {
+        setTypingUsers(users);
     });
 
     socket.on('updateConnections', (data) => {
@@ -88,7 +104,10 @@ const Chat = () => {
                     value={msgInput}
                     required
                     ref={msgRef}
+                    onKeyDown={sendActivity}
+                    onKeyUp={sendStopActivity}
                 />
+                <ul>{typingUsers.filter((user) => user !== auth.user)}</ul>
                 <button type='submit'>Send</button>
             </form>
         </section>

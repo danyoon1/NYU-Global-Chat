@@ -3,6 +3,7 @@ const Message = require('./models/Message');
 const { format } = require('date-fns');
 
 let onlineUsers = [];
+let typingUsers = new Set();
 
 const getNumUsers = async () => {
     // const onlineUsers = await User.countDocuments({ online: true });
@@ -34,10 +35,11 @@ const chatServer = (server) => {
             });
 
             io.emit('displayMessages', {
-                messages: await Message.find({}, 'sender message').sort({ $natural: -1 }).limit(50)
+                messages: (await Message.find({}, 'sender message').sort({ $natural: -1 }).limit(5)).reverse()
             });
         }, 500);
 
+        // bug: logs in as admin, logs out, logs in as admin2, socket receives initializeUser value as admin instead of admin2
         socket.once('initializeUser', name => {
             socket.user = name
             onlineUsers.push(socket.user);
@@ -52,6 +54,22 @@ const chatServer = (server) => {
                 name,
                 text
             });
+        });
+
+        socket.on('activity', (name) => {
+            typingUsers.add(name);
+            console.log(typingUsers)
+            socket.broadcast.emit('activity', Array.from(typingUsers));
+        });
+
+        // clear after 1 second
+        let activityTimer;
+        socket.on('stopActivity', (name) => {
+            clearTimeout(activityTimer);
+            activityTimer = setTimeout(() => {
+                typingUsers.delete(name);
+                socket.broadcast.emit('stopActivity', Array.from(typingUsers));
+            }, 1500);
         });
 
         socket.on('disconnect', () => {
