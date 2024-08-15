@@ -1,6 +1,6 @@
 import axios from 'axios';
 // const BASE_URL = 'http://localhost:1738';
-const BASE_URL = 'https://nyuglobalchat-api.onrender.com';
+const BASE_URL = 'https://nyu-global-chat-api.onrender.com';
 
 export default axios.create({
     baseURL: BASE_URL
