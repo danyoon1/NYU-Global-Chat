@@ -22,7 +22,7 @@ const storeMessage = async (name, text) => {
 const chatServer = (server) => {
     const io = new Server(server, {
         cors: {
-            origin: process.env.NODE_ENV === "production" ? ['https://nyu-global-chat.onrender.com'] : ['http://localhost:3000', 'http://127.0.0.1:3000']
+            origin: process.env.NODE_ENV === "production" ? ['https://nyu-global-chat.onrender.com', 'https://nyuglobalchat.com/'] : ['http://localhost:3000', 'http://127.0.0.1:3000']
         }
     });;
 
