@@ -72,7 +72,7 @@ const Register = () => {
                     withCredentials: true
                 }
             );
-            console.log(JSON.stringify(response?.data));
+            // console.log(JSON.stringify(response?.data));
             setSuccess(true);
             setUser('');
             setPwd('');

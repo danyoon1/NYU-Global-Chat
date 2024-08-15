@@ -72,7 +72,7 @@ const Chat = () => {
 
     socket.once('connect', () => {
         setConnected(true);
-        console.log(auth.user);
+        // console.log(auth.user);
         socket.emit('initializeUser', auth.user);
     });
 
