@@ -76,6 +76,9 @@ const chatServer = (server) => {
                 io.emit('updateConnections', {
                     count: await getNumUsers()
                 });
+
+                typingUsers.delete(socket.user);
+                io.emit('updateActivity', Array.from(typingUsers));
             }, 500);
         });
     });
