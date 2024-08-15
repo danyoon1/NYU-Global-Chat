@@ -75,9 +75,9 @@ const handleLogin = async (req, res) => {
         const result = await foundUser.save();
 
         // store refresh token as cookie (http only)
-        res.cookie('jwt', newRefreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+        // res.cookie('jwt', newRefreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
         // use secure for production, does not work with thunder client
-        // res.cookie('jwt', refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000})
+        res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
 
         // store in memory on frontend
         res.json({ accessToken, userRoles });

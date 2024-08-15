@@ -74,9 +74,9 @@ const handleRefreshToken = async (req, res) => {
             const result = await foundUser.save();
 
             // send new refresh token as cookie
-            res.cookie('jwt', newRefreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+            // res.cookie('jwt', newRefreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
             // use secure for production, does not work with thunder client
-            // res.cookie('jwt', refreshToken, {httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000})
+            res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
 
             res.json({ accessToken });
         }
