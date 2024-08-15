@@ -37,7 +37,7 @@ const chatServer = (server) => {
             io.emit('displayMessages', {
                 messages: (await Message.find({}, 'sender message').sort({ $natural: -1 }).limit(50)).reverse()
             });
-        }, 500);
+        }, 1500);
 
         socket.once('initializeUser', name => {
             socket.user = name
