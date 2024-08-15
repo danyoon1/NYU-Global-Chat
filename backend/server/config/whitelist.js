@@ -1,3 +1,3 @@
-const whitelist = ['http://localhost:3500', 'http://localhost:3000'];
+const whitelist = ['https://nyuglobalchat-api.onrender.com', 'https://nyuglobalchat.onrender.com'];
 
 module.exports = whitelist;

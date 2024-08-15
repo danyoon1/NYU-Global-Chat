@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const Server = require('socket.io').Server;
 const path = require('path');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
@@ -11,7 +10,7 @@ const verifyJWT = require('./middleware/verifyJWT');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const { chatServer } = require('./chatServer');
-const PORT = process.env.PORT || 3500;
+const PORT = process.env.PORT || 1738;
 
 // connect to MongoDB
 connectDB();

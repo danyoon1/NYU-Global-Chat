@@ -134,7 +134,7 @@ const Chat = () => {
                     type='text'
                     id='message'
                     className='chat-input'
-                    placeholder='Your message'
+                    placeholder='Your message...'
                     onChange={(e) => setMsgInput(e.target.value)}
                     value={msgInput}
                     required
