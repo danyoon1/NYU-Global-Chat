@@ -20,17 +20,15 @@ const Chat = () => {
 
     useEffect(() => {
 
+        // strict mode countermeasures issue in development
         if (!initCon.current) {
             socket.connect();
             msgRef.current.focus();
         }
 
         return () => {
-            if (initCon.current) {
-                socket.removeAllListeners();
-                socket.disconnect(true);
-                initCon.current = false;
-            }
+            socket.removeAllListeners();
+            socket.disconnect(true);
             initCon.current = true;
         }
     }, []);
