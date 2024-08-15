@@ -9,10 +9,12 @@ const handleNewUser = async (req, res) => {
     // deep email validation
     const validationResult = await validate(stuEmail);
     if (!validationResult.valid) {
+        console.log('invalid email')
         return res.status(400).json({ 'message': 'email is invalid' });
     }
 
     if (!user || !pwd || !stuEmail) {
+        console.log('missing credentials')
         return res.status(400).json({ 'message': 'username, password, and email are required' });
     }
 
