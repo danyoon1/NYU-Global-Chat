@@ -227,6 +227,7 @@ button {
 
 .activity {
     /* background-color: aliceblue; */
+    height: 3rem;
     width: 70%;
     padding-top: 0.5rem;
 }
