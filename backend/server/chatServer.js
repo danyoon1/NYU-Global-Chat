@@ -35,11 +35,10 @@ const chatServer = (server) => {
             });
 
             io.emit('displayMessages', {
-                messages: (await Message.find({}, 'sender message').sort({ $natural: -1 }).limit(5)).reverse()
+                messages: (await Message.find({}, 'sender message').sort({ $natural: -1 }).limit(50)).reverse()
             });
         }, 500);
 
-        // bug: logs in as admin, logs out, logs in as admin2, socket receives initializeUser value as admin instead of admin2
         socket.once('initializeUser', name => {
             socket.user = name
             onlineUsers.push(socket.user);
@@ -56,20 +55,16 @@ const chatServer = (server) => {
             });
         });
 
+        // sometimes bugged / shows typing when not typing
+        // switching page before releasing prevents firing stop activity
         socket.on('activity', (name) => {
             typingUsers.add(name);
-            console.log(typingUsers)
-            socket.broadcast.emit('activity', Array.from(typingUsers));
+            socket.broadcast.emit('updateActivity', Array.from(typingUsers));
         });
 
-        // clear after 1 second
-        let activityTimer;
         socket.on('stopActivity', (name) => {
-            clearTimeout(activityTimer);
-            activityTimer = setTimeout(() => {
-                typingUsers.delete(name);
-                socket.broadcast.emit('stopActivity', Array.from(typingUsers));
-            }, 1500);
+            typingUsers.delete(name);
+            socket.broadcast.emit('updateActivity', Array.from(typingUsers));
         });
 
         socket.on('disconnect', () => {

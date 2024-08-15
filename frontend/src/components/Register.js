@@ -104,7 +104,7 @@ const Register = () => {
                 <section className="Register">
                     <p ref={errRef} className={errMsg ? 'errMsg' : 'offscreen'} aria-live='assertive'>{errMsg}</p>
                     <h1>Register</h1>
-                    <form onSubmit={handleSubmit}>
+                    <form className='register-form' onSubmit={handleSubmit}>
                         <label htmlFor="username">
                             Username:
                         </label>
@@ -143,7 +143,7 @@ const Register = () => {
                             onBlur={() => setEmailFocus(false)}
                         />
                         <p id="emailnote" className={emailFocus && email && !validEmail ? "instructions" : "offscreen"}>
-                            Email must be an NYU email.
+                            Must be a valid NYU email.
                         </p>
 
                         <label htmlFor="password">
@@ -160,7 +160,7 @@ const Register = () => {
                             onFocus={() => setPwdFocus(true)}
                             onBlur={() => setPwdFocus(false)}
                         />
-                        <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
+                        <p id="pwdnote" className={pwdFocus && pwd && !validPwd ? "instructions" : "offscreen"}>
                             8 to 24 characters. <br />
                             Must include uppercase and lowercase letters, a number, and a special character.
                             <br />
@@ -190,7 +190,7 @@ const Register = () => {
                     <p>
                         Already registered?<br />
                         <span className='line'>
-                            <Link to='login'>Login</Link>
+                            <Link to='../login'>Login</Link>
                         </span>
                     </p>
                 </section>

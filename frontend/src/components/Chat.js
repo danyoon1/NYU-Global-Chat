@@ -1,5 +1,5 @@
-import { socket } from './Socket';
 import { useState, useEffect, useRef } from 'react';
+import { socket } from './Socket';
 import useAuth from '../hooks/useAuth';
 
 const Chat = () => {
@@ -12,9 +12,11 @@ const Chat = () => {
     const [numUsers, setNumUsers] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [typingUsers, setTypingUsers] = useState([]);
+    const [bottom, setBottom] = useState(true);
 
     const initCon = useRef(false);
     const msgRef = useRef();
+    const endRef = useRef(null);
 
     useEffect(() => {
 
@@ -25,19 +27,35 @@ const Chat = () => {
 
         return () => {
             if (initCon.current) {
-                socket.disconnect();
+                socket.removeAllListeners();
+                socket.disconnect(true);
                 initCon.current = false;
             }
             initCon.current = true;
         }
     }, []);
 
+    useEffect(() => {
+        if (bottom) {
+            endRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [msgHistory]);
+
+    const handleScroll = (e) => {
+        const bottom = e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight < 10;
+        setBottom(bottom);
+    }
+
     const sendActivity = () => {
         socket.emit('activity', auth.user);
     }
 
+    let activityTimer;
     const sendStopActivity = () => {
-        socket.emit('stopActivity', auth.user);
+        clearTimeout(activityTimer);
+        activityTimer = setTimeout(() => {
+            socket.emit('stopActivity', auth.user);
+        }, 1500);
     }
 
     const sendMessage = (e) => {
@@ -54,6 +72,7 @@ const Chat = () => {
 
     socket.once('connect', () => {
         setConnected(true);
+        console.log(auth.user);
         socket.emit('initializeUser', auth.user);
     });
 
@@ -68,12 +87,8 @@ const Chat = () => {
         ]);
     });
 
-    socket.on('activity', (users) => {
-        setTypingUsers(users);
-    });
-
-    socket.on('stopActivity', (users) => {
-        setTypingUsers(users);
+    socket.on('updateActivity', (users) => {
+        setTypingUsers(users.filter((user) => user !== auth.user));
     });
 
     socket.on('updateConnections', (data) => {
@@ -89,26 +104,46 @@ const Chat = () => {
 
     return (
         <section className='Chat'>
-            <p>{`Online Users: ${isLoading ? 'Loading...' : numUsers}`}</p>
-            <ul className='chat-display'>
-                {msgHistory.map((msg, i) => (
-                    <li key={i}>{`${msg.name}: ${msg.text}`}</li>
-                ))}
-            </ul>
-            <form onSubmit={sendMessage}>
+            <p className='online'>{`Online Users: ${isLoading ? 'Loading...' : numUsers}`}</p>
+            <div className='chat-container' onScroll={handleScroll}>
+                <ul className='chat-display'>
+                    {msgHistory.map((msg, i) => (
+                        <li key={i}>{`${msg.name}: ${msg.text}`}</li>
+                    ))}
+                </ul>
+                <div
+                    className='chat-end'
+                    ref={endRef}
+                />
+            </div>
+            <ul className='activity'>{
+                typingUsers.length > 0 && typingUsers.length === 1
+                    ? `${typingUsers[0]} is typing...`
+                    : typingUsers.map((user, i) => {
+                        if (i === 0) {
+                            return user
+                        } else if (i === typingUsers.length - 1) {
+                            return `, ${user} are typing...`
+                        } else {
+                            return `, ${user}`
+                        }
+                    })
+            }</ul>
+            <form className='chat-form' onSubmit={sendMessage}>
                 <input
                     type='text'
                     id='message'
+                    className='chat-input'
                     placeholder='Your message'
                     onChange={(e) => setMsgInput(e.target.value)}
                     value={msgInput}
                     required
                     ref={msgRef}
+                    autoComplete='off'
                     onKeyDown={sendActivity}
                     onKeyUp={sendStopActivity}
                 />
-                <ul>{typingUsers.filter((user) => user !== auth.user)}</ul>
-                <button type='submit'>Send</button>
+                <button type='submit' className='chat-submit'>Send</button>
             </form>
         </section>
     )

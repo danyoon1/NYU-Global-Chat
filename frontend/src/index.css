@@ -1,21 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Staatliches&family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Staatliches&family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&family=VT323&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'VT323', serif;
 }
 
 html {
-    font-family: 'Thasadith', serif;
-    font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    color: rgb(0, 255, 51);
 }
 
 body {
     min-height: 100vh;
     min-width: 100vw;
-    background-color: violet;
+    /* background-image: linear-gradient(rgb(230, 90, 230), rgb(224, 171, 224)); */
+    background-color: black;
     display: flex;
 }
 
@@ -43,36 +44,38 @@ body {
     width: 100%;
     flex-grow: 1;
     padding: 1rem;
-    overflow-y: auto;
 }
 
 a {
     text-decoration: none;
+    color: inherit;
 }
 
 nav {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
 }
 
-.nav-list {
+ul {
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
+    display: inline-block;
     list-style-type: none;
-    /* background-color: aquamarine; */
+}
+
+.nav-list li {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .nav-left {
     width: 80%;
-    /* background-color: aliceblue; */
+    text-align: left;
+    padding: 1rem;
 }
 
 .nav-right {
     width: 10%;
-    /* background-color: aqua; */
     text-align: center;
 }
 
@@ -88,7 +91,7 @@ nav {
 
 .Home h1 {
     font-size: 4.5rem;
-    margin-top: 5%;
+    margin-top: 8%;
 }
 
 #description {
@@ -102,8 +105,8 @@ nav {
     top: 4rem;
     display: inline-block;
     border-radius: 6px;
-    background-color: blueviolet;
-    border: none;
+    background-color: black;
+    border: 5px ridge rgb(0, 255, 51);
     color: white;
     font-size: 2rem;
     padding: 1rem;
@@ -135,4 +138,135 @@ nav {
 #enter:hover span::after {
     opacity: 1;
     right: 0;
+}
+
+.Register,
+.Login {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.Register h1,
+.Login h1 {
+    font-size: 1.7rem;
+}
+
+.register-form,
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* flex-grow: 1; */
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+
+input[type='text'],
+input[type='password'],
+input[type='email'],
+button {
+    font-size: 1.2rem;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+}
+
+.errMsg {
+    background-color: rgb(249, 120, 188);
+    color: firebrick;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.instructions {
+    font-size: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: #605e5e;
+    color: white;
+    padding: 0.25rem;
+    position: relative;
+    bottom: -10px;
+}
+
+.offscreen {
+    position: absolute;
+    left: -9999px;
+}
+
+.hide {
+    display: none;
+}
+
+.Register button,
+.Login button {
+    margin-top: 1rem;
+}
+
+.Chat {
+    height: 80vh;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.online {
+    padding-bottom: 1rem;
+}
+
+.chat-form {
+    width: 100%;
+    margin: auto;
+    max-width: 70%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.activity {
+    /* background-color: aliceblue; */
+    width: 70%;
+    padding-top: 0.5rem;
+}
+
+.chat-input {
+    flex-grow: 1;
+    max-width: calc(80% - .25rem);
+}
+
+.chat-submit {
+    width: 20%;
+}
+
+.chat-container {
+    overflow: auto;
+    flex-grow: 1;
+    width: 70%;
+}
+
+.chat-display {
+    display: flex;
+    flex-flow: column;
+    justify-content: left;
+    max-width: 100%;
+    margin: 1rem auto;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: black;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #bebcbc;
 }

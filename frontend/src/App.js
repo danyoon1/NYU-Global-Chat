@@ -27,7 +27,7 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route index element={<Home />} /> {/* included for persist */}
 
-          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+          <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}>
             <Route path='chat' element={<Chat />} />
           </Route>
         </Route>
