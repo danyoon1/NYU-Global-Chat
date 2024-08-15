@@ -13,6 +13,7 @@ const Chat = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [typingUsers, setTypingUsers] = useState([]);
     const [bottom, setBottom] = useState(true);
+    const [activityTimer, setActivityTimer] = useState(null);
 
     const initCon = useRef(false);
     const msgRef = useRef();
@@ -46,14 +47,12 @@ const Chat = () => {
 
     const sendActivity = () => {
         socket.emit('activity', auth.user);
-    }
 
-    let activityTimer;
-    const sendStopActivity = () => {
         clearTimeout(activityTimer);
-        activityTimer = setTimeout(() => {
+        let timer = setTimeout(() => {
             socket.emit('stopActivity', auth.user);
         }, 1500);
+        setActivityTimer(timer);
     }
 
     const sendMessage = (e) => {
@@ -139,7 +138,6 @@ const Chat = () => {
                     ref={msgRef}
                     autoComplete='off'
                     onKeyDown={sendActivity}
-                    onKeyUp={sendStopActivity}
                 />
                 <button type='submit' className='chat-submit'>Send</button>
             </form>
