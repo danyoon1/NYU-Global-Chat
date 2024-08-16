@@ -3,6 +3,11 @@ import { socket } from './Socket';
 import { jwtDecode } from 'jwt-decode';
 import useAuth from '../hooks/useAuth';
 
+const COLOR_CODES = {
+    'User': 0,
+    'Admin': 1
+}
+
 const Chat = () => {
 
     const { auth } = useAuth();
@@ -126,7 +131,7 @@ const Chat = () => {
                 typingUsers.length > 0 && typingUsers.length === 1
                     ? <li key={typingUsers[0]}>
                         <span>
-                            <span className={parseInt(typingUsers[0].slice(-1)) === 1 ? 'admin' : 'user'}>
+                            <span className={parseInt(typingUsers[0].slice(-1)) === COLOR_CODES.Admin ? 'admin' : 'user'}>
                                 {`${typingUsers[0].slice(0, typingUsers[0].length - 1)}`}
                             </span>{' is typing...'}
                         </span>
@@ -134,11 +139,10 @@ const Chat = () => {
                     : typingUsers.map((user, i) => {
                         const name = user.slice(0, user.length - 1);
                         const color = parseInt(user.slice(-1));
-                        console.log(color)
                         if (i === 0) {
                             return (
                                 <li key={name}>
-                                    <span className={color === 1 ? 'admin' : 'user'}>
+                                    <span className={color === COLOR_CODES.Admin ? 'admin' : 'user'}>
                                         {name}
                                     </span>
                                 </li>)
@@ -146,7 +150,7 @@ const Chat = () => {
                             return (
                                 <li key={name}>
                                     <span>{', '}
-                                        <span className={color === 1 ? 'admin' : 'user'}>
+                                        <span className={color === COLOR_CODES.Admin ? 'admin' : 'user'}>
                                             {name}
                                         </span> {' are typing...'}
                                     </span>
@@ -156,7 +160,7 @@ const Chat = () => {
                             return (
                                 <li key={name}>
                                     <span>{', '}
-                                        <span className={color === 1 ? 'admin' : 'user'}>
+                                        <span className={color === COLOR_CODES.Admin ? 'admin' : 'user'}>
                                             {name}
                                         </span>
                                     </span>
