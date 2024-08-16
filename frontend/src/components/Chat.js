@@ -88,7 +88,7 @@ const Chat = () => {
     });
 
     socket.on('updateActivity', (users) => {
-        setTypingUsers(users.filter((user) => user !== auth.user));
+        setTypingUsers(users.filter((user) => user.slice(0, user.length - 1) !== auth.user));
     });
 
     socket.on('updateConnections', (data) => {
@@ -124,14 +124,44 @@ const Chat = () => {
             </div>
             <ul className='activity'>{
                 typingUsers.length > 0 && typingUsers.length === 1
-                    ? `${typingUsers[0]} is typing...`
+                    ? <li key={typingUsers[0]}>
+                        <span>
+                            <span className={parseInt(typingUsers[0].slice(-1)) === 1 ? 'admin' : 'user'}>
+                                {`${typingUsers[0].slice(0, typingUsers[0].length - 1)}`}
+                            </span>{' is typing...'}
+                        </span>
+                    </li>
                     : typingUsers.map((user, i) => {
+                        const name = user.slice(0, user.length - 1);
+                        const color = parseInt(user.slice(-1));
+                        console.log(color)
                         if (i === 0) {
-                            return user
+                            return (
+                                <li key={name}>
+                                    <span className={color === 1 ? 'admin' : 'user'}>
+                                        {name}
+                                    </span>
+                                </li>)
                         } else if (i === typingUsers.length - 1) {
-                            return `, ${user} are typing...`
+                            return (
+                                <li key={name}>
+                                    <span>{', '}
+                                        <span className={color === 1 ? 'admin' : 'user'}>
+                                            {name}
+                                        </span> {' are typing...'}
+                                    </span>
+                                </li>
+                            )
                         } else {
-                            return `, ${user}`
+                            return (
+                                <li key={name}>
+                                    <span>{', '}
+                                        <span className={color === 1 ? 'admin' : 'user'}>
+                                            {name}
+                                        </span>
+                                    </span>
+                                </li>
+                            )
                         }
                     })
             }</ul>

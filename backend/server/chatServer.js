@@ -66,12 +66,14 @@ const chatServer = (server) => {
         // sometimes bugged / shows typing when not typing
         // switching page before releasing prevents firing stop activity
         socket.on('activity', (name) => {
-            typingUsers.add(name);
+            const encoded = `${name}${socket.color}`;
+            typingUsers.add(encoded);
             socket.broadcast.emit('updateActivity', Array.from(typingUsers));
         });
 
         socket.on('stopActivity', (name) => {
-            typingUsers.delete(name);
+            const encoded = `${name}${socket.color}`;
+            typingUsers.delete(encoded);
             socket.broadcast.emit('updateActivity', Array.from(typingUsers));
         });
 
@@ -85,7 +87,8 @@ const chatServer = (server) => {
                     count: await getNumUsers()
                 });
 
-                typingUsers.delete(socket.user);
+                const encoded = `${socket.user}${socket.color}`;
+                typingUsers.delete(encoded);
                 io.emit('updateActivity', Array.from(typingUsers));
             }, 500);
         });

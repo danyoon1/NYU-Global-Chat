@@ -232,6 +232,10 @@ button {
     padding-top: 0.5rem;
 }
 
+.activity li {
+    display: inline;
+}
+
 .chat-input {
     flex-grow: 1;
     max-width: calc(80% - .25rem);
