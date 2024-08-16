@@ -13,11 +13,12 @@ const getNumUsers = async () => {
     return numOnline;
 }
 
-const storeMessage = async (name, text) => {
+const storeMessage = async (name, text, color) => {
     const newMessage = await Message.create({
         sender: name,
         datetime: `${format(new Date(), 'yyyMMdd\tHH:mm:ss')}`,
-        message: text
+        message: text,
+        color
     });
 }
 
