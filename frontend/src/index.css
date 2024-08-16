@@ -271,3 +271,11 @@ button {
 ::-webkit-scrollbar-thumb:hover {
     background-color: #bebcbc;
 }
+
+.admin {
+    color: red;
+}
+
+.user {
+    color: rgb(0, 255, 51);
+}
