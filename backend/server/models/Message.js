@@ -6,6 +6,10 @@ const messageSchema = new Schema({
         type: String,
         required: true
     },
+    color: {
+        type: Number,
+        default: 0
+    },
     datetime: {
         type: String,
         required: true

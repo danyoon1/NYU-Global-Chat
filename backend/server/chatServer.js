@@ -2,6 +2,8 @@ const Server = require('socket.io').Server;
 const Message = require('./models/Message');
 const { format } = require('date-fns');
 
+const ROLES_LIST = require('./config/rolesList');
+
 let onlineUsers = [];
 let typingUsers = new Set();
 
@@ -41,17 +43,23 @@ const chatServer = (server) => {
 
         socket.once('initializeUser', name => {
             socket.user = name
+            socket.color = 0;
+            console.log(roles);
+            if (roles.includes(ROLES_LIST.Admin)) {
+                socket.color = 1;
+            }
             onlineUsers.push(socket.user);
-            console.log(onlineUsers)
+            console.log(onlineUsers);
         });
 
         socket.on('message', ({ name, text }) => {
             console.log(`${name}: ${text}`);
-            storeMessage(name, text);
+            storeMessage(name, text, socket.color);
 
             io.emit('message', {
                 name,
-                text
+                text,
+                color: socket.color
             });
         });
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { socket } from './Socket';
+import { jwtDecode } from 'jwt-decode';
 import useAuth from '../hooks/useAuth';
 
 const Chat = () => {
@@ -25,6 +26,14 @@ const Chat = () => {
         if (!initCon.current) {
             socket.connect();
             msgRef.current.focus();
+
+            socket.once('connect', () => {
+                setConnected(true);
+                socket.emit('initializeUser', {
+                    name: auth.user,
+                    roles: jwtDecode(auth?.accessToken)?.UserInfo?.roles
+                });
+            });
         }
 
         return () => {
@@ -67,12 +76,6 @@ const Chat = () => {
         msgRef.current.focus();
     }
 
-    socket.once('connect', () => {
-        setConnected(true);
-        // console.log(auth.user);
-        socket.emit('initializeUser', auth.user);
-    });
-
     socket.on('disconnect', () => {
         setConnected(false);
     });
@@ -80,7 +83,7 @@ const Chat = () => {
     socket.on('message', (data) => {
         setMsgHistory([
             ...msgHistory,
-            { name: data.name, text: data.text }
+            { name: data.name, text: data.text, color: data.color }
         ]);
     });
 
@@ -95,7 +98,7 @@ const Chat = () => {
 
     socket.on('displayMessages', (data) => {
         setMsgHistory(data.messages.map((msg) => (
-            { name: msg.sender, text: msg.message }
+            { name: msg.sender, text: msg.message, color: msg.color }
         )));
     });
 
@@ -105,7 +108,13 @@ const Chat = () => {
             <div className='chat-container' onScroll={handleScroll}>
                 <ul className='chat-display'>
                     {msgHistory.map((msg, i) => (
-                        <li key={i}>{`${msg.name}: ${msg.text}`}</li>
+                        <li key={i}>
+                            <span
+                                className={msg.color === 1 ? 'admin' : 'user'}>
+                                {`${msg.name}: `}
+                            </span>
+                            <span>{msg.text}</span>
+                        </li>
                     ))}
                 </ul>
                 <div
