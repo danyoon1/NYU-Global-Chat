@@ -38,7 +38,7 @@ const chatServer = (server) => {
             });
 
             io.emit('displayMessages', {
-                messages: (await Message.find({}, 'sender message').sort({ $natural: -1 }).limit(50)).reverse()
+                messages: (await Message.find({}, 'sender message color').sort({ $natural: -1 }).limit(50)).reverse()
             });
         }, 1500);
 
