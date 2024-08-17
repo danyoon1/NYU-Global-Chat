@@ -13,12 +13,9 @@ const RequireAuth = ({ allowedRoles }) => {
     const roles = decoded?.UserInfo?.roles || [];
 
     return (
-        // set up unauthorized dialogues
-        roles.find(role => allowedRoles?.includes(role)) && auth.verification
+        roles.find(role => allowedRoles?.includes(role)) && auth?.user && auth?.verification
             ? <Outlet />
-            : auth?.user
-                ? <Navigate to='login' state={{ from: location }} replace />
-                : <Navigate to='login' state={{ from: location }} replace />
+            : <Navigate to='/' state={{ from: location }} replace />
     )
 }
 
