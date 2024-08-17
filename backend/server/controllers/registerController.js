@@ -34,7 +34,7 @@ const handleNewUser = async (req, res) => {
                 username: user
             },
             process.env.EMAIL_TOKEN_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '1d' }
         );
 
         verifyUserEmail(user, stuEmail, emailToken);
