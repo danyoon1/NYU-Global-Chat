@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from '../api/axios';
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
@@ -13,12 +13,11 @@ const EmailVerification = () => {
     const { token } = useParams();
     const navigate = useNavigate();
 
-    const [isValidToken, setIsValidToken] = useState(false);
+    const [validationFailed, setValidationFailed] = useState(false);
 
     // test on production
     const activateVerification = () => {
         verifyEmailToken(username, token);
-        navigate('../../login');
     }
 
     const verifyEmailToken = async (user, emailToken) => {
@@ -36,24 +35,28 @@ const EmailVerification = () => {
             );
 
             if (response.status === 201) {
-                setIsValidToken(true);
                 setAuth({
                     ...auth,
                     verification: true
                 });
+                navigate('../../login');
             }
         } catch (err) {
             console.error(err);
+            setValidationFailed(true);
         }
     }
 
     return (
         <div>
-            <section className="Verification">
-                <span>Click the button to verify your email.</span>
-                <br />
-                <button onClick={activateVerification}>Verify</button>
-            </section>
+            {!validationFailed
+                ? <section className="Verification">
+                    <span>Click the button to verify your email.</span>
+                    <br />
+                    <button onClick={activateVerification}>Verify</button>
+                </section>
+                : <section className="Verification">Verification token expired.</section>
+            }
         </div>
     )
 }
