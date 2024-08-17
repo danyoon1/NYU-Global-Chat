@@ -49,16 +49,11 @@ const EmailVerification = () => {
 
     return (
         <div>
-            {isValidToken
-                ? <section className="Verification">
-                    <span>Click the button to verify your email.</span>
-                    <br />
-                    <button onClick={activateVerification}>Verify</button>
-                </section>
-                : <section className="Verification">
-                    <span>Email verification failed. Please try again.</span>
-                </section>
-            }
+            <section className="Verification">
+                <span>Click the button to verify your email.</span>
+                <br />
+                <button onClick={activateVerification}>Verify</button>
+            </section>
         </div>
     )
 }
