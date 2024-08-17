@@ -79,8 +79,7 @@ const chatServer = (server) => {
 
         socket.on('disconnect', () => {
             console.log(`User ${socket.id} disconnected`);
-            const userIndex = onlineUsers.indexOf(socket.user);
-            onlineUsers.splice(userIndex, 1);
+            onlineUsers = onlineUsers.filter((user) => user !== socket.user);
 
             setTimeout(async () => {
                 io.emit('updateConnections', {
