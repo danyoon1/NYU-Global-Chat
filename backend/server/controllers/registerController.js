@@ -39,6 +39,7 @@ const handleNewUser = async (req, res) => {
 
         verifyUserEmail(user, stuEmail, emailToken);
 
+        console.log(`${user} registered`);
         res.status(201).json({ 'success': `new user ${user} created` });
     } catch (err) {
         res.status(500).json({ 'message': err.message });
