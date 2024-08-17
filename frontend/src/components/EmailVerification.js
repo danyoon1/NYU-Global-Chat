@@ -14,6 +14,7 @@ const EmailVerification = () => {
     const [isValidToken, setIsValidToken] = useState(false);
 
     useEffect(() => {
+        console.log('link clicked??');
         verifyEmailToken(username, token);
     }, []);
 
