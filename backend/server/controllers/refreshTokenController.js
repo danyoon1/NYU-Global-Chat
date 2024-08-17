@@ -26,7 +26,7 @@ const handleRefreshToken = async (req, res) => {
                 if (err) { // expired token
                     return res.sendStatus(403); // forbidden
                 }
-                const hackedUser = await User.findOne({ username: decoded.username }).exec();
+                let hackedUser = await User.findOne({ username: decoded.username }).exec();
                 hackedUser.refreshToken = [];
                 const result = await hackedUser.save();
             }
