@@ -41,7 +41,8 @@ const Login = () => {
             // console.log(JSON.stringify(response?.data));
 
             const accessToken = response?.data?.accessToken;
-            setAuth({ user, accessToken });
+            const verification = response?.data?.verification;
+            setAuth({ user, accessToken, verification });
             setUser('');
             setPwd('');
             navigate(from, { replace: true });

@@ -14,7 +14,7 @@ const RequireAuth = ({ allowedRoles }) => {
 
     return (
         // set up unauthorized dialogues
-        roles.find(role => allowedRoles?.includes(role))
+        roles.find(role => allowedRoles?.includes(role)) && auth.verification
             ? <Outlet />
             : auth?.user
                 ? <Navigate to='login' state={{ from: location }} replace />

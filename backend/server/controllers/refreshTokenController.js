@@ -73,12 +73,14 @@ const handleRefreshToken = async (req, res) => {
             foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
             const result = await foundUser.save();
 
+            // get verification status
+            const verification = foundUser.verified;
+
             // send new refresh token as cookie
-            // res.cookie('jwt', newRefreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
             // use secure for production, does not work with thunder client
             res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
 
-            res.json({ accessToken });
+            res.json({ accessToken, verification });
         }
     );
 }

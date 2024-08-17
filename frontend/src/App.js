@@ -8,6 +8,7 @@ import Chat from './components/Chat';
 import Missing from './components/Missing';
 import RequireAuth from './components/RequireAuth';
 import PersistLogin from './components/PersistLogin';
+import EmailVerification from './components/EmailVerification';
 
 const ROLES = {
   'User': 2121,
@@ -22,6 +23,7 @@ function App() {
         {/* public routes */}
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
+        <Route path='verifyEmail/:username/:token' element={<EmailVerification />} />
 
         {/* protected frontend routes (authorization) */}
         <Route element={<PersistLogin />}>

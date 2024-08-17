@@ -74,13 +74,15 @@ const handleLogin = async (req, res) => {
         foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
         const result = await foundUser.save();
 
+        // get verification status
+        const verification = foundUser.verified;
+
         // store refresh token as cookie (http only)
-        // res.cookie('jwt', newRefreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
         // use secure for production, does not work with thunder client
         res.cookie('jwt', newRefreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 })
 
         // store in memory on frontend
-        res.json({ accessToken, userRoles });
+        res.json({ accessToken, verification });
     } else {
         res.sendStatus(401) // unauthorized
     }

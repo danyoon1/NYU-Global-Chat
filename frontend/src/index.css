@@ -283,3 +283,8 @@ button {
 .user {
     color: rgb(0, 255, 51);
 }
+
+.Verification {
+    height: 80vh;
+    text-align: center;
+}

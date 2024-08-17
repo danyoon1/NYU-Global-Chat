@@ -16,7 +16,8 @@ const useRefreshToken = () => {
 
         setAuth({
             user: decoded.UserInfo.username,
-            accessToken: response.data.accessToken
+            accessToken: response.data.accessToken,
+            verification: response.data.verification
         });
 
         return response.data.accessToken;
