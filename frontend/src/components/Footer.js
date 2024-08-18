@@ -4,7 +4,7 @@ const Footer = () => {
     const today = new Date();
 
     return (
-        <div className='Footer'>Copyright &copy; {today.getFullYear()}</div>
+        <div className='Footer'><a href="https://www.youtube.com/watch?v=X5-xWQMpmgo" target='_blank' rel='noreferrer'>Copyright &copy; {today.getFullYear()}</a></div>
     )
 }
 
