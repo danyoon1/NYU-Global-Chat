@@ -13,8 +13,8 @@ html {
 }
 
 body {
-    min-height: 100vh;
-    min-width: 100vw;
+    height: 100vh;
+    width: 100vw;
     /* background-image: linear-gradient(rgb(230, 90, 230), rgb(224, 171, 224)); */
     background-color: black;
     display: flex;
@@ -32,8 +32,8 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    min-height: 100vh;
-    min-width: 100vw;
+    height: 100vh;
+    width: 100vw;
     padding: 1rem, 0.5rem;
 }
 
@@ -227,7 +227,6 @@ button {
 }
 
 .activity {
-    /* background-color: aliceblue; */
     height: 3rem;
     width: 70%;
     padding-top: 0.5rem;
@@ -256,20 +255,24 @@ button {
     display: flex;
     flex-flow: column;
     justify-content: left;
-    max-width: 100%;
+    width: 100%;
     margin: 1rem auto;
 }
 
 .msg-name {
     display: inline-block;
-    width: 5%;
-    padding-right: 2.6rem;
+    width: 7%;
+    margin-right: 0.2rem;
     vertical-align: top;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: right;
 }
 
 .msg-text {
     display: inline-block;
-    width: 75%;
+    width: 80%;
     text-align: left;
     overflow-wrap: break-word;
 }
