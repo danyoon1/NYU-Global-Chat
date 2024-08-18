@@ -262,12 +262,15 @@ button {
 .msg-name {
     display: inline-block;
     width: 7%;
-    margin-right: 0.2rem;
     vertical-align: top;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     text-align: right;
+}
+
+.msg-separator {
+    margin-right: 0.2rem;
 }
 
 .msg-text {

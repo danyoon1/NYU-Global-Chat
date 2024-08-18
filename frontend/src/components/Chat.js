@@ -118,8 +118,9 @@ const Chat = () => {
                         <li key={i}>
                             <span
                                 className={`${msg.color === 1 ? 'admin' : 'user'} msg-name`}>
-                                {`${msg.name}: `}
+                                {`${msg.name}`}
                             </span>
+                            <span className='msg-separator'>:</span>
                             <span className='msg-text'>{msg.text}</span>
                             <span className='msg-time'>{msg.time}</span>
                         </li>
