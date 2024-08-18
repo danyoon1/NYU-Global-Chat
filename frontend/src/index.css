@@ -40,7 +40,8 @@ body {
 .Home,
 .Register,
 .Login,
-.Chat {
+.Chat,
+.Verification {
     width: 100%;
     flex-grow: 1;
     padding: 1rem;
@@ -257,6 +258,31 @@ button {
     justify-content: left;
     max-width: 100%;
     margin: 1rem auto;
+}
+
+.msg-name {
+    display: inline-block;
+    width: 5%;
+    padding-right: 2.6rem;
+    vertical-align: top;
+}
+
+.msg-text {
+    display: inline-block;
+    width: 75%;
+    text-align: left;
+    overflow-wrap: break-word;
+}
+
+.msg-time {
+    display: none;
+    width: 10%;
+    text-align: right;
+    vertical-align: top;
+}
+
+.msg-text:hover+.msg-time {
+    display: inline-block;
 }
 
 ::-webkit-scrollbar {

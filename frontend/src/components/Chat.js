@@ -27,7 +27,6 @@ const Chat = () => {
 
     useEffect(() => {
 
-        // strict mode countermeasures issue in development
         if (!initCon.current) {
             socket.connect();
             msgRef.current.focus();
@@ -42,8 +41,11 @@ const Chat = () => {
         }
 
         return () => {
-            socket.removeAllListeners();
-            socket.disconnect(true);
+            if (initCon.current) {
+                socket.removeAllListeners();
+                socket.disconnect(true);
+                initCon.current = false;
+            }
             initCon.current = true;
         }
     }, []);
@@ -88,7 +90,7 @@ const Chat = () => {
     socket.on('message', (data) => {
         setMsgHistory([
             ...msgHistory,
-            { name: data.name, text: data.text, color: data.color }
+            { name: data.name, text: data.text, color: data.color, time: data.time }
         ]);
     });
 
@@ -103,7 +105,7 @@ const Chat = () => {
 
     socket.on('displayMessages', (data) => {
         setMsgHistory(data.messages.map((msg) => (
-            { name: msg.sender, text: msg.message, color: msg.color }
+            { name: msg.sender, text: msg.message, color: msg.color, time: msg.datetime.slice(-8) }
         )));
     });
 
@@ -115,10 +117,11 @@ const Chat = () => {
                     {msgHistory.map((msg, i) => (
                         <li key={i}>
                             <span
-                                className={msg.color === 1 ? 'admin' : 'user'}>
+                                className={`${msg.color === 1 ? 'admin' : 'user'} msg-name`}>
                                 {`${msg.name}: `}
                             </span>
-                            <span>{msg.text}</span>
+                            <span className='msg-text'>{msg.text}</span>
+                            <span className='msg-time'>{msg.time}</span>
                         </li>
                     ))}
                 </ul>
@@ -139,6 +142,7 @@ const Chat = () => {
                     : typingUsers.map((user, i) => {
                         const name = user.slice(0, user.length - 1);
                         const color = parseInt(user.slice(-1));
+                        console.log(color)
                         if (i === 0) {
                             return (
                                 <li key={name}>
