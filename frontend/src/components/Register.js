@@ -31,6 +31,8 @@ const Register = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
+    const [isValidSubmission, setIsValidSubmission] = useState(false);
+
     useEffect(() => {
         userRef.current.focus();
     }, []);
@@ -64,6 +66,8 @@ const Register = () => {
             return;
         }
 
+        setIsValidSubmission(true);
+
         try {
             const response = await axios.post(REGISTER_URL,
                 JSON.stringify({ user, pwd, email }),
@@ -88,6 +92,7 @@ const Register = () => {
                 setErrMsg("Registration Failed");
             }
             errRef.current.focus();
+            setIsValidSubmission(false);
         }
     }
 
@@ -185,7 +190,8 @@ const Register = () => {
                             Passwords must match.
                         </p>
 
-                        <button type="submit" disabled={!validUser || !validPwd || !validMatch || !validEmail ? true : false}>Register</button>
+                        <button type="submit" disabled={!validUser || !validPwd || !validMatch || !validEmail || isValidSubmission ? true : false}>Register</button>
+                        <p className={isValidSubmission ? 'instructions' : 'offscreen'}>Waiting for server response... This may take a while...</p>
                     </form>
                     <p>
                         Already registered?<br />
