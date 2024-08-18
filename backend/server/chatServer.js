@@ -45,7 +45,6 @@ const chatServer = (server) => {
         socket.once('initializeUser', ({ name, roles }) => {
             socket.user = name
             socket.color = 0;
-            console.log(roles);
             if (roles.includes(ROLES_LIST.Admin)) {
                 socket.color = 1;
             }

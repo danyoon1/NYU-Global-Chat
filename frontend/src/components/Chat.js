@@ -41,11 +41,8 @@ const Chat = () => {
         }
 
         return () => {
-            if (initCon.current) {
-                socket.removeAllListeners();
-                socket.disconnect(true);
-                initCon.current = false;
-            }
+            socket.removeAllListeners();
+            socket.disconnect(true);
             initCon.current = true;
         }
     }, []);
@@ -143,7 +140,6 @@ const Chat = () => {
                     : typingUsers.map((user, i) => {
                         const name = user.slice(0, user.length - 1);
                         const color = parseInt(user.slice(-1));
-                        console.log(color)
                         if (i === 0) {
                             return (
                                 <li key={name}>
