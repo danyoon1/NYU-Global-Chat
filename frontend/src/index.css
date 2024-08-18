@@ -357,3 +357,21 @@ button {
 .dialog-button {
     width: 40%;
 }
+
+@media screen and (max-width: 540px) {
+    .chat-container {
+        width: 90%;
+    }
+
+    .chat-display {
+        font-size: 0.7rem;
+    }
+
+    .msg-name {
+        width: 12%;
+    }
+
+    .msg-text {
+        width: 77%;
+    }
+}
