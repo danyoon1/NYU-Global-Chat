@@ -359,6 +359,18 @@ button {
 }
 
 @media screen and (max-width: 540px) {
+
+    .nav-left {
+        width: 60%;
+        text-align: left;
+        padding: 1rem;
+    }
+
+    .nav-right {
+        width: 20%;
+        text-align: center;
+    }
+
     .chat-container {
         width: 90%;
     }
@@ -373,5 +385,9 @@ button {
 
     .msg-text {
         width: 77%;
+    }
+
+    .msg-text:hover+.msg-time {
+        display: none;
     }
 }
