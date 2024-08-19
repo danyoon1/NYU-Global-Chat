@@ -41,7 +41,8 @@ body {
 .Register,
 .Login,
 .Chat,
-.Verification {
+.Verification,
+.Profile {
     width: 100%;
     flex-grow: 1;
     padding: 1rem;
@@ -52,32 +53,37 @@ a {
     color: inherit;
 }
 
+ul {
+    width: 100%;
+    list-style-type: none;
+}
+
 nav {
     width: 100%;
     padding: 0.5rem 1rem;
     font-size: 1.1rem;
 }
 
-ul {
-    width: 100%;
-    display: inline-block;
-    list-style-type: none;
+.nav-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 1rem;
 }
 
 .nav-list li {
+    align-content: center;
     display: inline-block;
-    vertical-align: middle;
 }
 
 .nav-left {
-    width: 80%;
     text-align: left;
-    padding: 1rem;
+    flex-basis: 70%;
 }
 
 .nav-right {
-    width: 10%;
     text-align: center;
+    flex-basis: 8%;
 }
 
 .Footer {
@@ -142,12 +148,13 @@ ul {
 }
 
 .Register,
-.Login {
+.Login,
+.Profile {
     width: 40%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 .Register h1,
@@ -168,6 +175,7 @@ ul {
 input[type='text'],
 input[type='password'],
 input[type='email'],
+textarea,
 button {
     font-size: 1.2rem;
     padding: 0.25rem;
@@ -267,10 +275,12 @@ button {
     overflow: hidden;
     white-space: nowrap;
     text-align: right;
+    cursor: pointer;
 }
 
 .msg-separator {
     margin-right: 0.2rem;
+    vertical-align: top;
 }
 
 .msg-text {
@@ -358,17 +368,51 @@ button {
     width: 40%;
 }
 
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid rgb(0, 255, 51);
+    border-radius: 7px;
+    padding: 1rem;
+}
+
+.profile-container h2 {
+    padding-bottom: 1rem;
+}
+
+.profile-item {
+    padding-bottom: 1rem;
+}
+
+.profile-container textarea {
+    font-size: 1.1rem;
+    resize: none;
+}
+
+#bio-label {
+    vertical-align: top;
+}
+
 @media screen and (max-width: 540px) {
 
+    .Profile,
+    .Register,
+    .Login {
+        width: 90%;
+    }
+
+    .nav-list {
+        font-size: 0.7rem;
+    }
+
     .nav-left {
-        width: 60%;
         text-align: left;
-        padding: 1rem;
+        flex-basis: 40%;
     }
 
     .nav-right {
-        width: 20%;
         text-align: center;
+        flex-basis: auto;
     }
 
     .chat-container {

@@ -26,6 +26,7 @@ const Nav = () => {
                     : (
                         <>
                             <li className='nav-right'>Logged in as {auth.user}</li>
+                            <li className='nav-right'><Link to='profile'><span>Profile</span></Link></li>
                             <li className='nav-right'><Link><span onClick={signOut}>Logout</span></Link></li>
                         </>
                     )

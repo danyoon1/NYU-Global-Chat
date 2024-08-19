@@ -9,6 +9,7 @@ import Missing from './components/Missing';
 import RequireAuth from './components/RequireAuth';
 import PersistLogin from './components/PersistLogin';
 import EmailVerification from './components/EmailVerification';
+import Profile from './components/Profile';
 
 const ROLES = {
   'User': 2121,
@@ -31,6 +32,7 @@ function App() {
 
           <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}>
             <Route path='chat' element={<Chat />} />
+            <Route path='profile' element={<Profile />} />
           </Route>
         </Route>
 
